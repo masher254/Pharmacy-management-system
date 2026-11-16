@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Patient registration{% endblock %}
+{% block public_content %}
+<div class="login-page">
+  <div class="login-visual"><div class="login-brand"><span class="brand-mark">✚</span> PharmaCare</div><div class="visual-copy"><span class="eyebrow light">PATIENT PORTAL</span><h1>Your pharmacy<br>requests, in one place.</h1><p>Create an account to submit a prescription request and follow its progress from your own portal.</p><div class="visual-stats"><div><strong>01</strong><span>Submit request</span></div><div><strong>02</strong><span>Track progress</span></div><div><strong>03</strong><span>Stay informed</span></div></div></div><div class="visual-foot">Patient access is separate from pharmacy staff access.</div></div>
+  <div class="login-panel"><div class="login-card"><div class="mobile-mark">✚</div><span class="eyebrow">PATIENT ACCESS</span><h2>Create your account</h2><p class="muted">Use your account to manage your prescription requests.</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}
+    <form method="post" class="form-stack">
+      <label>Full name<input name="full_name" required maxlength="120" placeholder="Your full name"></label>
+      <label>Username<input name="username" required maxlength="80" autocomplete="username" placeholder="Choose a username"></label>
+      <label>Contact number (optional)<input name="contact" maxlength="60" placeholder="Phone number"></label>
+      <label>Password<input type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></label>
+      <button class="btn primary full" type="submit">Create patient account <span>→</span></button>
+    </form>
+    <p class="login-note">Already registered? <a class="text-link" href="{{ url_for('login') }}">Sign in</a>. Use fictional information for demonstrations.</p>
+  </div></div>
+</div>
+{% endblock %}

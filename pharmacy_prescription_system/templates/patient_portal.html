@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Patient portal{% endblock %}
+{% block page_heading %}My patient portal{% endblock %}
+{% block content %}
+<div class="welcome-row"><div><h2>Welcome, {{ session.get('full_name','there').split(' ')[0] }}.</h2><p>Submit prescription requests and check the status of your requests here.</p></div><span class="date-pill">Patient account</span></div>
+<div class="patient-banner"><div class="patient-banner-icon">✚</div><div><strong>Your pharmacy request centre</strong><p>Requests are reviewed by pharmacy staff. A submitted request is not approval to dispense medicine.</p></div></div>
+<div class="page-intro"><div><h2>My prescription requests</h2><p>Only requests linked to your patient account are shown here.</p></div><a class="btn primary" href="{{ url_for('prescription_new') }}">＋ Submit a request</a></div>
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>Medicine requested</th><th>Dosage / instructions</th><th>Quantity</th><th>Date submitted</th><th>Current status</th></tr></thead><tbody>
+{% for p in prescriptions %}<tr><td class="code">{{ p.prescription_code }}</td><td><strong>{{ p.medicine_name }}</strong></td><td>{{ p.dosage or 'Not supplied' }}</td><td>{{ p.quantity }}</td><td>{{ p.created_at[:10] }}</td><td><span class="badge {{ p.status|lower|replace(' ','-') }}">{{ p.status }}</span></td></tr>
+{% else %}<tr><td colspan="6"><div class="empty-state"><span>▤</span><strong>No requests yet</strong><p>When you submit a request, its progress will appear here.</p><a class="btn primary small" href="{{ url_for('prescription_new') }}">Submit a request</a></div></td></tr>{% endfor %}
+</tbody></table></div><div class="panel-foot">{{ prescriptions|length }} request(s)</div></section>
+<div class="patient-disclaimer">Privacy reminder: use only the information required by the demonstration. This prototype does not verify prescriber credentials or send SMS/email notifications.</div>
+{% endblock %}

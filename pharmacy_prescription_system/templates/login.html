@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block public_content %}
+<div class="login-page">
+  <div class="login-visual"><div class="login-brand"><span class="brand-mark">✚</span> PharmaCare</div><div class="visual-copy"><span class="eyebrow light">PHARMACY OPERATIONS PLATFORM</span><h1>Care organized.<br>Prescriptions managed.</h1><p>One secure workspace for prescription tracking, stock monitoring and pharmacy operations.</p><div class="visual-stats"><div><strong>01</strong><span>Prescriptions</span></div><div><strong>02</strong><span>Inventory</span></div><div><strong>03</strong><span>Accountability</span></div></div></div><div class="visual-foot">A simple, connected pharmacy workflow.</div></div>
+  <div class="login-panel"><div class="login-card"><div class="mobile-mark">✚</div><span class="eyebrow">WELCOME BACK</span><h2>Sign in to your account</h2><p class="muted">Enter your credentials to access your workspace.</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}
+    <form method="post" class="form-stack">
+      <label>Username<input name="username" autocomplete="username" placeholder="Enter your username" required autofocus></label>
+      <label>Password<input type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required></label>
+      <button class="btn primary full" type="submit">Sign in <span>→</span></button>
+    </form>
+    <div class="patient-register-link">Are you a patient? <a href="{{ url_for('patient_register') }}">Create a patient account →</a></div>
+    <div class="demo-box"><strong>Staff demo access</strong><p>Administrator: <code>admin</code> / <code>Admin123!</code></p><p>Staff: <code>staff</code> / <code>Staff123!</code></p><p>Manager: <code>manager</code> / <code>Manager123!</code></p></div>
+    <small class="login-note">Use fictional data only. This prototype is for educational demonstration.</small>
+  </div></div>
+</div>
+{% endblock %}

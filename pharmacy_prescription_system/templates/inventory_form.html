@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Add inventory{% endblock %}
+{% block page_heading %}Add medicine batch{% endblock %}
+{% block content %}
+<div class="page-intro"><div><h2>Register inventory</h2><p>Each medicine batch is tracked separately for expiry and stock control.</p></div><a class="btn secondary" href="{{ url_for('inventory') }}">← Back to inventory</a></div>
+<form method="post" class="panel form-panel"><div class="form-section-title"><span>01</span><div><h3>Batch information</h3><p>Enter identifying and stock details.</p></div></div><div class="form-grid">
+<label>Medicine name <em>*</em><input name="medicine_name" required maxlength="120" placeholder="Medicine name"></label><label>Batch number <em>*</em><input name="batch_number" required maxlength="80" placeholder="Manufacturer batch ID"></label><label>Quantity in stock <em>*</em><input name="quantity" type="number" min="0" value="0" required></label><label>Reorder level <em>*</em><input name="reorder_level" type="number" min="0" value="10" required></label><label>Expiry date <em>*</em><input name="expiry_date" type="date" min="2000-01-01" required></label><label>Unit price (KSh) <em>*</em><input name="unit_price" type="number" min="0" step="0.01" value="0.00" required></label>
+</div><div class="form-actions"><a class="btn secondary" href="{{ url_for('inventory') }}">Cancel</a><button class="btn primary" type="submit">Save batch →</button></div></form>
+{% endblock %}

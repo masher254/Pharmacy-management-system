@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}User accounts{% endblock %}
+{% block page_heading %}User account management{% endblock %}
+{% block content %}
+<div class="page-intro"><div><h2>System users</h2><p>Create accounts and assign access according to responsibilities.</p></div></div>
+<div class="section-grid user-grid"><section class="panel"><div class="panel-head"><div><h3>Create account</h3><p>New users must use a password of at least 8 characters.</p></div></div><form method="post" class="form-stack padded-form"><label>Full name<input name="full_name" required maxlength="120" placeholder="Full name"></label><label>Username<input name="username" required maxlength="80" placeholder="Unique username"></label><label>Password<input type="password" name="password" required minlength="8" placeholder="At least 8 characters"></label><label>Role<select name="role" required>{% for role in roles %}<option>{{ role }}</option>{% endfor %}</select></label><button class="btn primary" type="submit">Create user →</button></form></section>
+<section class="panel"><div class="panel-head"><div><h3>Registered accounts</h3><p>{{ users|length }} account(s)</p></div></div><div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Created</th></tr></thead><tbody>{% for u in users %}<tr><td><strong>{{ u.full_name }}</strong><small class="cell-sub">@{{ u.username }}</small></td><td><span class="role-pill">{{ u.role }}</span></td><td>{{ u.created_at[:10] }}</td></tr>{% endfor %}</tbody></table></div></section></div>
+{% endblock %}
