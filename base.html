@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PharmaCare{% endblock %} | Prescription Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if session.get('user_id') %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">✚</span><span>PharmaCare<small>Prescription system</small></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav>
+      {% if session.get('role') == 'Patient' %}
+      <a href="{{ url_for('patient_portal') }}" class="{{ 'active' if request.endpoint in ['patient_portal','prescription_new'] else '' }}">▦ <span>My health portal</span></a>
+      <a href="{{ url_for('prescriptions') }}" class="{{ 'active' if request.endpoint == 'prescriptions' else '' }}">▤ <span>My requests</span></a>
+      {% else %}
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">▦ <span>Dashboard</span></a>
+      <a href="{{ url_for('prescriptions') }}" class="{{ 'active' if request.endpoint in ['prescriptions','prescription_new'] else '' }}">▤ <span>Prescriptions</span></a>
+      <a href="{{ url_for('inventory') }}" class="{{ 'active' if request.endpoint in ['inventory','inventory_new'] else '' }}">▥ <span>Inventory</span></a>
+      {% if session.get('role') in ['Administrator','Manager'] %}
+      <a href="{{ url_for('reports') }}" class="{{ 'active' if request.endpoint == 'reports' else '' }}">▧ <span>Reports & audit</span></a>
+      {% endif %}
+      {% if session.get('role') == 'Administrator' %}
+      <a href="{{ url_for('users') }}" class="{{ 'active' if request.endpoint == 'users' else '' }}">♙ <span>User accounts</span></a>
+      {% endif %}
+      {% endif %}
+    </nav>
+    <div class="sidebar-bottom"><div class="avatar">{{ session.get('full_name','U')[0]|upper }}</div><div class="user-info"><strong>{{ session.get('full_name') }}</strong><small>{{ session.get('role') }}</small></div><a class="logout" href="{{ url_for('logout') }}" title="Sign out">↗</a></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div><span class="eyebrow">PHARMACY OPERATIONS</span><h1>{% block page_heading %}Dashboard{% endblock %}</h1></div><div class="top-user"><span class="status-dot"></span> Signed in as <strong>{{ session.get('username') }}</strong></div></header>
+    <section class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}<div class="flash-list">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button onclick="this.parentElement.remove()">×</button></div>{% endfor %}</div>{% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </section>
+    <footer>© {{ current_year }} PharmaCare · Educational prototype</footer>
+  </main>
+</div>
+{% else %}
+{% block public_content %}{% endblock %}
+{% endif %}
+<script>
+document.querySelectorAll('[data-confirm]').forEach(el => el.addEventListener('submit', e => {
+  if (!confirm(el.dataset.confirm)) e.preventDefault();
+}));
+</script>
+</body>
+</html>
